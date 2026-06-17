@@ -12,7 +12,8 @@ export default function Dashboard() {
   const { data: claims } = useClaims();
 
   // hooks may return Axios responses; ensure we access the payload
-  const totalPatients = patients?.data?.total ?? patients?.total ?? 0;
+  // hooks may return Axios responses or raw payloads; use a safe any-cast for alternate shape
+  const totalPatients = patients?.data?.total ?? (patients as any)?.total ?? 0;
   const totalAppointments = appointments?.data?.length ?? 0;
   const pendingClaims = claims?.data?.filter((c: any) => c.status === 'submitted').length ?? 0;
 
