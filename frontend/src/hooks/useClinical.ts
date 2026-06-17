@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from 'react-query';
-import { getEncounter, createEncounter, getPrescriptions, getReport } from '@/services/clinical';
+import { getEncounter, createEncounter, getPrescriptions, getReport } from '@/services/clinicial';
 
 export const useEncounter = (id: string) => {
   return useQuery(['encounter', id], () => getEncounter(id), { enabled: !!id });

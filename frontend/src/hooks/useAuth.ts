@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { createContext, createElement, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/router';
 import { login as apiLogin, logout as apiLogout, getCurrentUser } from '@/services/auth';
 
@@ -46,18 +46,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     router.push('/login');
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
+  return createElement(
+    AuthContext.Provider,
+    {
+      value: {
         user,
         isAuthenticated: !!user,
         isLoading,
         login,
         logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+      },
+    },
+    children,
   );
 };
 
