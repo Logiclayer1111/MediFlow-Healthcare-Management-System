@@ -5,3 +5,12 @@ export const createEncounter = (data: any) => api.post('/clinical/encounter', da
 export const getPrescriptions = () => api.get('/prescriptions').then(res => res.data);
 export const getReport = (start: string, end: string) =>
   api.get('/reports/clinical', { params: { start, end } }).then(res => res.data);
+export const createPrescription = async (data: any) => {
+  const response = await fetch('/api/prescriptions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) throw new Error('Failed to create prescription');
+  return response.json();
+};

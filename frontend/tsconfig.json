@@ -1,4 +1,6 @@
+
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "es5",
     "ignoreDeprecations": "6.0",
