@@ -25,7 +25,7 @@ export default function EncounterForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    mutate(form, {
+    mutate(form as any, {
       onSuccess: () => router.push('/clinical/encounters'),
     });
   };
