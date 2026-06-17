@@ -6,10 +6,15 @@ import ErrorMessage from '@/components/common/ErrorMessage';
 import Link from 'next/link';
 
 export default function AppointmentsPage() {
-  const { data: appointments, isLoading, error } = useAppointments();
+  const { data: appointmentsResponse, isLoading, error } = useAppointments();
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message="Failed to load appointments" />;
+
+  // Normalize response: useAppointments may return an AxiosResponse or an array
+  const appointments = Array.isArray(appointmentsResponse)
+    ? appointmentsResponse
+    : (appointmentsResponse?.data ?? []);
 
   return (
     <div>
@@ -24,7 +29,7 @@ export default function AppointmentsPage() {
           <AppointmentCalendar />
         </div>
         <div className="lg:col-span-2">
-          <AppointmentList appointments={appointments || []} />
+          <AppointmentList appointments={appointments} />
         </div>
       </div>
     </div>
