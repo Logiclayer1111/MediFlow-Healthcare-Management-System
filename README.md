@@ -38,6 +38,6 @@ cp .env.example .env
 docker-compose up -d
 
 # Access
-Frontend: http://localhost:3001
+Frontend: http://localhost:3000
 Backend API: http://localhost:3000/api
 ```

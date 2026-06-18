@@ -6,7 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from '@/components/common/Layout';
 import { AuthProvider } from '@/hooks/useAuth';
 
-const queryClient = new QueryClient();
+// Create a client for React Query
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,7 +22,18 @@ export default function App({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <Layout>
           <Component {...pageProps} />
-          <ToastContainer />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
         </Layout>
       </AuthProvider>
     </QueryClientProvider>
