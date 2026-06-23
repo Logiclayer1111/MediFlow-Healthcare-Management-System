@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RegisterDto } from './dto/register.dto';
@@ -11,7 +12,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
+  async login(@Request() req: ExpressRequest) {
     return this.authService.login(req.user);
   }
 

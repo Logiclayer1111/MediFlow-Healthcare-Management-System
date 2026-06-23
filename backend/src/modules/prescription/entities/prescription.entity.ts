@@ -61,7 +61,7 @@ export class Prescription {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'doctorId' })
-  doctor: User;
+  doctor!: User;
 
   @CreateDateColumn()
   createdAt!: Date;

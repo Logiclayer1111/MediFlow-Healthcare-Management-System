@@ -17,5 +17,5 @@ export class RegisterDto {
   lastName!: string;
 
   @IsEnum(UserRole)
-  role: UserRole;
+  role!: UserRole;
 }

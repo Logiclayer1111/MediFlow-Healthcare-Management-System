@@ -49,7 +49,7 @@ export class Appointment {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'doctorId' })
-  doctor: User;
+  doctor!: User;
 
   @CreateDateColumn()
   createdAt!: Date;

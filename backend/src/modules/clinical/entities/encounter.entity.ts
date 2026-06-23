@@ -42,7 +42,7 @@ export class Encounter {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: 'doctorId' })
-  doctor: User;
+  doctor!: User;
 
   @OneToMany(() => Observation, (obs: Observation) => obs.encounter)
   observations!: Observation[];

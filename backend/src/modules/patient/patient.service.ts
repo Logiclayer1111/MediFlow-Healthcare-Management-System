@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm'; // Added DeepPartial
 import { Patient } from './entities/patient.entity';
 import { PatientProfile } from './entities/patient-profile.entity';
 import { CreatePatientDto } from './dto/create-patient.dto';
@@ -17,15 +17,19 @@ export class PatientService {
   ) {}
 
   async create(createPatientDto: CreatePatientDto): Promise<Patient> {
-    const profileData = Array.isArray(createPatientDto.profile)
-      ? createPatientDto.profile[0]
-      : createPatientDto.profile;
-    const profile = this.profileRepository.create(profileData);
+    const { profile: profileInput, ...patientData } = createPatientDto;
+    const profileData = Array.isArray(profileInput)
+      ? profileInput[0]
+      : profileInput;
+    const profile = profileData
+      ? this.profileRepository.create(profileData)
+      : undefined;
 
+    // Cast to DeepPartial<Patient> to resolve type mismatch
     const patient = this.patientRepository.create({
-      ...createPatientDto,
+      ...patientData,
       profile,
-    });
+    } as DeepPartial<Patient>);
     return this.patientRepository.save(patient);
   }
 
@@ -51,6 +55,8 @@ export class PatientService {
   async update(id: string, updatePatientDto: UpdatePatientDto): Promise<Patient> {
     const patient = await this.findOne(id);
     if (updatePatientDto.profile) {
+      // If the DTO sends an array, you may need to handle it similarly,
+      // but for now assume it's a single object.
       await this.profileRepository.update(patient.profile.id, updatePatientDto.profile);
     }
     await this.patientRepository.update(id, { ...updatePatientDto, profile: undefined });
